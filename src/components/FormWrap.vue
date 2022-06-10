@@ -84,8 +84,8 @@ export default {
         let count = 0;
         this.error = [];
         if (!this.form.name || this.form.name === '') { this.error.name = "The field is required!"; count++; }
-        if (!this.form.email || this.form.email === '') { this.error.email = "The field is required!"; count++; }
         if (this.regexEmail.test(this.form.email) === false) { this.error.email = "The field must be email!"; count++; }
+        if (!this.form.email || this.form.email === '') { this.error.email = "The field is required!"; count++; }
         if (count !== 0) {
           return false;
         }
@@ -96,8 +96,8 @@ export default {
         let count = 0;
         this.error = [];
         if (!this.form.company || this.form.company === '') { this.error.company = "The field is required!"; count++; }
-        if (!this.form.employees || this.form.employees === '') { this.error.employees = "The field is required!"; count++; }
         if (this.regexNumber.test(this.form.employees) === false) { this.error.employees = "Should be a valid value!"; count++; }
+        if (!this.form.employees || this.form.employees === '') { this.error.employees = "The field is required!"; count++; }
         if (count !== 0) {
           return false;
         }

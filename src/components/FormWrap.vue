@@ -1,6 +1,5 @@
 <template>
   <div class="form-wrap-container">
-
     <div class="form-content" v-if="step === 1">
       <label>Full Name</label>
       <input type="text" @change="changeName($event)" :value="form.name"
@@ -39,14 +38,12 @@
       </div>
       <p v-if="error.acceptTerm">{{ error.acceptTerm }}</p>
     </div>
-
     <div class="form-button">
       <button class="prev-button" v-if="step !== 3" @click="pre()">Previous</button>
       <button class="next-button" v-if="step !== 3" @click="next()">Next</button>
       <button class="reset-button" v-if="step === 3" @click="reset()">Reset</button>
       <button class="send-button" v-if="step === 3" @click="sendData()">Send</button>
     </div>
-
   </div>
 </template>
 
@@ -74,12 +71,9 @@ export default {
       this.form.email = e.target.value;
     },
     changeCompany(e) {
-
-
       this.form.company = e.target.value;
     },
     changeEmployees(e) {
-
       this.form.employees = e.target.value;
     },
     selectHear(e) { this.form.selected = e.target.value },
@@ -87,31 +81,37 @@ export default {
       this.form.acceptTerm = e.target.checked
     }, checkForm() {
       if (this.step === 1) {
+        let count = 0;
         this.error = [];
-        if (!this.form.name || this.form.name === '') { this.error.name = "The field is required!"; return false; }
-        if (!this.form.email || this.form.email === '') { this.error.email = "The field is required!"; return false; }
-        if (this.regexEmail.test(this.form.email) === false) { this.error.email = "The field must be email!"; return false; }
-
+        if (!this.form.name || this.form.name === '') { this.error.name = "The field is required!"; count++; }
+        if (this.regexEmail.test(this.form.email) === false) { this.error.email = "The field must be email!"; count++; }
+        if (!this.form.email || this.form.email === '') { this.error.email = "The field is required!"; count++; }
+        if (count !== 0) {
+          return false;
+        }
         if (this.form.name && this.form.email) { return true; }
         return true;
       }
       if (this.step === 2) {
-        console.log("emp", this.form.employees)
+        let count = 0;
         this.error = [];
-
-        if (!this.form.company || this.form.company === '') { this.error.company = "The field is required!"; return false; }
-
-        if (!this.form.employees || this.form.employees === '') { this.error.employees = "The field is required!"; return false; }
-        if (this.regexNumber.test(this.form.employees) === false) { this.error.employees = "Should be a valid value!"; return false; }
+        if (!this.form.company || this.form.company === '') { this.error.company = "The field is required!"; count++; }
+        if (this.regexNumber.test(this.form.employees) === false) { this.error.employees = "Should be a valid value!"; count++; }
+        if (!this.form.employees || this.form.employees === '') { this.error.employees = "The field is required!"; count++; }
+        if (count !== 0) {
+          return false;
+        }
         if (this.form.company && this.form.employees) { return true; }
         return true;
       }
       if (this.step === 3) {
-        console.log("stp3s", this.form.selected)
-        console.log("stp3a", this.form.acceptTerm)
+        let count = 0;
         this.error = [];
-        if (!this.form.selected || this.form.selected === '') { this.error.selected = "The field is required!"; return false; }
-        if (!this.form.acceptTerm || this.form.acceptTerm === false) { this.error.acceptTerm = "The field is required!"; return false; }
+        if (!this.form.selected || this.form.selected === '') { this.error.selected = "The field is required!"; count++; }
+        if (!this.form.acceptTerm || this.form.acceptTerm === false) { this.error.acceptTerm = "The field is required!"; count++; }
+        if (count !== 0) {
+          return false;
+        }
         if (this.form.selected && this.form.acceptTerm) { return true; }
         return true;
 
@@ -151,7 +151,6 @@ export default {
 input {
   color: #586068;
   font-size: 16px;
-  /* width: 100%; */
   padding: 8px 16px;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -174,14 +173,14 @@ input.required {
   background-color: #fff;
   box-shadow: 0 4px 10px rgb(0 0 0 / 20%), 6px 12px 20px rgb(0 0 0 / 10%);
   margin-top: 15px;
-  padding: 20px;
+  padding: 25px;
 }
 
 label {
   align-self: start;
   font-size: 16px;
   /* display: block; */
-  margin: 20px 0 10px 0;
+  margin: 15px 0 10px 0;
 }
 
 p {

@@ -1,10 +1,11 @@
 <template>
   <div id="app" class="container">
-    <ProgressBar :step="step" />
-    <StepWrap :step="step" />
-    <FormWrap :userData="userData" :step="step" @next-click="nextStep" @pre-click="preStep" @reset-click="resetHandle"
-      @send-click="sendData" />
-
+    <div class="box">
+      <ProgressBar :step="step" />
+      <StepWrap :step="step" />
+      <FormWrap :userData="userData" :step="step" @next-click="nextStep" @pre-click="preStep" @reset-click="resetHandle"
+        @send-click="sendData" />
+    </div>
   </div>
 </template>
 
@@ -53,7 +54,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Poppins, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -63,7 +64,13 @@ export default {
 }
 
 .container {
-  background-color: #e4e6e8;
+  background-color: #f7f7f7;
   height: calc(100vh - 60px);
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  width: 900px;
 }
 </style>

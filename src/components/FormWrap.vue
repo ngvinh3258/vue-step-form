@@ -48,10 +48,13 @@
 </template>
 
 <script>
+import store from '@/store';
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'form-wrap-container',
   props: {
-    userData: Object,
+
     step: Number
   },
   data() {
@@ -62,7 +65,10 @@ export default {
       regexEmail: /^[a-zA-Z0-9.]+@+[a-zA-Z0-9]+.+[A-z]/,
       regexNumber: /^[0-9]/,
     }
-  },
+  }, computed: {
+    ...mapGetters(['userData'])
+  }
+  ,
   methods: {
     changeName(e) {
       this.form.name = e.target.value;
@@ -133,13 +139,15 @@ export default {
       this.$emit('reset-click');
     }, sendData() {
       console.log("check", this.checkForm())
+
       if (this.checkForm()) {
-        this.form = this.userData;
+        store.commit('setUserData', this.form)
         this.$emit('send-click');
       }
-
-
     },
+    ...mapMutations(['setUserData']),
+
+
 
 
   }

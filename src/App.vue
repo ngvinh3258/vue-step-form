@@ -3,7 +3,7 @@
     <div class="box">
       <ProgressBar :step="step" />
       <StepWrap :step="step" />
-      <FormWrap :userData="userData" :step="step" @next-click="nextStep" @pre-click="preStep" @reset-click="resetHandle"
+      <FormWrap :step="step" @next-click="nextStep" @pre-click="preStep" @reset-click="resetHandle"
         @send-click="sendData" />
     </div>
   </div>
@@ -13,6 +13,7 @@
 import FormWrap from './components/FormWrap.vue'
 import StepWrap from './components/StepWrap.vue';
 import ProgressBar from './components/ProgressBar.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'App',
@@ -23,12 +24,11 @@ export default {
   },
   data() {
     return {
-      userData: {
-        name: '', email: '', company: '', employees: '', selected: '', acceptTerm: false
 
-      },
       step: 1
     }
+  }, computed: {
+    ...mapGetters(['userData'])
   },
   methods: {
     nextStep() {
@@ -42,7 +42,6 @@ export default {
     },
     resetHandle() {
       this.step = 1;
-      //resetData
     }
     , sendData() {
       console.log("userData", this.userData)

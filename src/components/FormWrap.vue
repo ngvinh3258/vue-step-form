@@ -2,22 +2,18 @@
   <div class="form-wrap-container">
     <div class="form-content" v-if="step === 1">
       <label>Full Name</label>
-      <input type="text" @change="changeName($event)" :value="form.name"
-        :class="[error.name !== undefined ? requiredClass : '']" />
+      <input type="text" v-model="form.name" :class="[error.name !== undefined ? requiredClass : '']" />
       <p v-if="error.name !== undefined">{{ error.name }}</p>
       <label>Your Email</label>
-      <input type="text" @change="changeEmail($event)" :value="form.email"
-        :class="[error.email !== undefined ? requiredClass : '']" />
+      <input type="text" v-model="form.email" :class="[error.email !== undefined ? requiredClass : '']" />
       <p v-if="error.email">{{ error.email }}</p>
     </div>
     <div class="form-content" v-if="step === 2">
       <label>Your Company Name</label>
-      <input type="text" @change="changeCompany($event)" :value="form.company"
-        :class="[error.company !== undefined ? requiredClass : '']" />
+      <input type="text" v-model="form.company" :class="[error.company !== undefined ? requiredClass : '']" />
       <p v-if="error.company">{{ error.company }}</p>
       <label>Number of Employees</label>
-      <input type="text" @change="changeEmployees($event)" :value="form.employees"
-        :class="[error.employees !== undefined ? requiredClass : '']" />
+      <input type="text" v-model="form.employees" :class="[error.employees !== undefined ? requiredClass : '']" />
       <p v-if="error.employees">{{ error.employees }}</p>
     </div>
     <div class="form-content" v-if="step === 3">
@@ -48,10 +44,13 @@
 </template>
 
 <script>
+import store from '@/store';
+import { mapGetters, mapMutations } from 'vuex';
+
 export default {
   name: 'form-wrap-container',
   props: {
-    userData: Object,
+
     step: Number
   },
   data() {
@@ -62,20 +61,11 @@ export default {
       regexEmail: /^[a-zA-Z0-9.]+@+[a-zA-Z0-9]+.+[A-z]/,
       regexNumber: /^[0-9]/,
     }
-  },
+  }, computed: {
+    ...mapGetters(['userData'])
+  }
+  ,
   methods: {
-    changeName(e) {
-      this.form.name = e.target.value;
-    },
-    changeEmail(e) {
-      this.form.email = e.target.value;
-    },
-    changeCompany(e) {
-      this.form.company = e.target.value;
-    },
-    changeEmployees(e) {
-      this.form.employees = e.target.value;
-    },
     selectHear(e) { this.form.selected = e.target.value },
     acceptTerm(e) {
       this.form.acceptTerm = e.target.checked
@@ -133,13 +123,15 @@ export default {
       this.$emit('reset-click');
     }, sendData() {
       console.log("check", this.checkForm())
+
       if (this.checkForm()) {
-        this.form = this.userData;
+        store.commit('setUserData', this.form)
         this.$emit('send-click');
       }
-
-
     },
+    ...mapMutations(['setUserData']),
+
+
 
 
   }
